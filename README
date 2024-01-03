@@ -1,0 +1,63 @@
+# StuQrGenerator
+
+## Description
+
+This project is a QR Code generator that allows users to create QR codes for various purposes such as sharing links, contact information, Wi-Fi details, social media profiles, etc.
+
+## Installation
+
+To set up this project locally, follow these steps:
+
+1. Clone the repository.
+2. Ensure PHP is installed on your machine.
+3. Ensure the "imagick" library is available on your system. This library is required for image processing.
+4. Install the required PHP dependencies using Composer:
+   ```bash
+   composer install
+   ```
+5. Ensure Node.js and npm are installed.
+6. Install Bootstrap using npm:
+   ```bash
+   npm install bootstrap@5.3.2
+   ```
+
+## Usage
+
+To use the StuQrGenerator:
+
+1. Start a local server.
+2. Access the application via the web browser.
+3. Fill in the necessary details to generate a QR code:
+   - Enter the URL or text for the QR code.
+   - Choose the error correction level.
+   - Optionally, upload a logo.
+   - Select the size and margin.
+   - Enter the CAPTCHA code.
+4. Click on the "Generate QR Code" button to create the QR code.
+5. Download the generated QR code for use.
+
+## Prerequisites
+
+Before using the StuQrGenerator, ensure your environment meets the following prerequisites:
+
+- **PHP**: Version 7.1 or higher, or version 8.
+- **"imagick" Library**: Essential for image processing functionalities in this project. Make sure it is installed and available on your system.
+
+## Files Included
+
+- `index.php`: The main file containing the HTML and PHP code for the QR code generation interface.
+- `history.php`: Page explaining the consent mechanism for QR code history storage in compliance with GDPR.
+- `src/Utils/CaptchaGenerator.php`: Php Class needed to ensure you're not a robot
+- `src/Utils/CaptchaImg.php`: Php page give you the image corresponding to the captcha code
+- `src/Utils/lang.php`: Php part used to read json language file
+- `src/Utils/qrGen.php`: Php business logic about generating qr code and setup generation
+- `src/Utils/qrHistoryCleaner.php`: Php business logic about removing old qr from server
+- `part/header.php`: Header of the index / history page allow user to change language for exemple
+- `part/footer.php`: Footer of the index / hostiry page, if consent allow user to see history of generated Qr
+- `composer.json`: Lists the required PHP dependency for QR code generation using Bacon QR Code library.
+- `package.lock.json`: Lock file specifying the Bootstrap dependency used in the project.
+- `img/*`: All image displayed on index.php and history including the favicon
+
+Feel free to explore the code and contribute to enhancing this QR code generator!
+
+For more information or queries, contact the project developer

@@ -191,7 +191,7 @@
 
     <script src="/js/StuQr.js"></script>
     <script>
-            // retrieval of generated qr codes for insertion in user history
+    // retrieval of generated qr codes for insertion in user history
     const consent = localStorage.getItem('consentGiven');
     if (consent === null)
     {
