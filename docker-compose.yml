@@ -5,6 +5,7 @@ services:
     build:
       context: ./docker
       dockerfile: Dockerfile
+    container_name: StuQrCodeGeneratorContainer
     ports:
       - "8090:80"
     volumes:

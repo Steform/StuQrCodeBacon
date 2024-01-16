@@ -42,6 +42,7 @@ Before using the StuQrGenerator, ensure your environment meets the following pre
 
 - **PHP**: Version 7.1 or higher, or version 8.
 - **"imagick" Library**: Essential for image processing functionalities in this project. Make sure it is installed and available on your system.
+- **"gd" Library**: Essential for captcha processing. Make sure it is installed and available on your system.
 
 ## Files Included
 
@@ -61,3 +62,26 @@ Before using the StuQrGenerator, ensure your environment meets the following pre
 Feel free to explore the code and contribute to enhancing this QR code generator!
 
 For more information or queries, contact the project developer
+
+## Docker
+
+To run StuQrCodeGenerator as a containerized service, follow these steps:
+
+1. Build the Docker image:
+
+   ```bash
+   docker-compose build
+   ```
+2. Start the container in detached mode:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+These commands will set up and launch the StuQrCodeGenerator service in a Docker container. Make sure you have Docker and Docker Compose installed on your system before running these commands.
+
+### Why Docker with StuQrCode ?
+
+[Docker](https://www.docker.com/) is a platform for creating, deploying, and running applications in lightweight, portable containers. Docker containers encapsulate an application and its dependencies, ensuring consistent execution across different environments.
+
+**Why Docker:** Consistent operation across diverse environments, simplified deployment with seamless dependency management, lightweight containers for isolation, effortless scalability, reduced conflicts with encapsulated dependencies, and a uniform development or production environment.

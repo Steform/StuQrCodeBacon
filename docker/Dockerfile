@@ -20,7 +20,7 @@ RUN service apache2 restart
 # Expose the 80 port of container
 EXPOSE 80
 
-# Commande par défaut pour exécuter le conteneur
+# Starting apache
 CMD ["apache2-foreground"]
 
 # Set permissions for the /var/www/html directory
