@@ -12,11 +12,6 @@ class CaptchaGenerator
     // constructor with no parameters
     public function __construct() 
     {
-        // if not session
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start(); // start it
-        }
-
         // access to session
         $this->session = &$_SESSION; 
     }

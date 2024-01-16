@@ -1,7 +1,11 @@
 <?php
     // Error if needed
-    // error_reporting(E_ALL);
-    // ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    // starting session if needed
+    if(session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     require_once(__DIR__ . '/Utils/lang.php');
 
 ?>

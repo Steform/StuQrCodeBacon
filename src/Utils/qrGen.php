@@ -47,10 +47,23 @@
 
                     // if not folder
                     if (!is_dir($dossier)) {
-                        // if not able to create folder
-                        if (!mkdir($dossier, 0755)) {
-                            
+                        // www-data
+                        
+                        // try to create the folder
+                        if (!mkdir($dossier, 0777, true)) {
+                            // if unable to create folder
                             $message = $lang_data['err1'];
+                        } else {
+                            // check if the folder has the correct permissions
+                            if (!is_writable($dossier) || !is_readable($dossier)) {
+                                // change folder permissions to 777
+                                chmod($dossier, 0777);
+                                
+                                // check again if the folder has the correct permissions
+                                if (!is_writable($dossier) || !is_readable($dossier)) {
+                                    $message = $lang_data['err2']; // Adjust this message according to your needs
+                                }
+                            }
                         }
                     }
                     
@@ -143,9 +156,6 @@
             // not L M Q H for correction
             return -1;
         }
-    }
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
     }
 
     // if no csrf_token
