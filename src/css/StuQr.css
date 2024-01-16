@@ -1,0 +1,134 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); 
+}
+
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    text-align: center;
+}
+.consent-link{
+    text-decoration: none;
+}
+
+.consent-show-modal{
+    color:white;
+}
+
+.consent-text {
+    border: 1px solid #888;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    padding:10px;
+    color:white;
+}
+
+.accept {
+
+    background-color: green;
+}
+
+.reject {
+    background-color: red;
+}
+
+.header{
+
+    background: linear-gradient(180deg, rgba(255,89,89,1) 0%, rgba(255,62,119,1) 35%, rgba(255,0,0,1) 100%); 
+
+}
+
+.footer{
+
+    background: linear-gradient(180deg, rgba(255,89,89,1) 0%, rgba(255,62,119,1) 35%, rgba(255,0,0,1) 100%);
+    color: white;
+
+}
+
+.qrgen{
+
+    width:70%;
+    height:auto;
+}
+
+.qrgen2{
+
+    width:100%;
+    height:auto;
+    padding:2%;
+}
+
+.qrlogo{
+
+    width:200px;
+    height:auto;
+}
+
+.qrbutton{
+
+    padding: 20px;
+    width:70%;
+    color:white;
+    text-decoration: none;
+    font-size: 22px;
+    background: linear-gradient(180deg, rgba(255,89,89,1) 0%, rgba(255,62,119,1) 35%, rgba(255,0,0,1) 100%); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.qrbutton2{
+
+    padding: 20px;
+    width:96%;
+    color:white;
+    text-decoration: none;
+    font-size: 22px;
+    background: linear-gradient(180deg, rgba(255,89,89,1) 0%, rgba(255,62,119,1) 35%, rgba(255,0,0,1) 100%); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid white; /* Ajout du type de bord et de la couleur */
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+#voirPlusButton{
+    font-size: 1.6rem;
+    width: 70%;
+    padding:1%;
+}
+
+.h1-header{
+
+    font-size: 60px;
+    color:white;
+}
+
+.stu-left-arrow, .stu-right-arrow{
+    top: 20% !important;
+}
+
+.footerimg{
+
+    width:100%;
+    height:auto;
+}
