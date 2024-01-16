@@ -85,3 +85,7 @@ These commands will set up and launch the StuQrCodeGenerator service in a Docker
 [Docker](https://www.docker.com/) is a platform for creating, deploying, and running applications in lightweight, portable containers. Docker containers encapsulate an application and its dependencies, ensuring consistent execution across different environments.
 
 **Why Docker:** Consistent operation across diverse environments, simplified deployment with seamless dependency management, lightweight containers for isolation, effortless scalability, reduced conflicts with encapsulated dependencies, and a uniform development or production environment.
+
+## Demo
+
+Explore the StuQrCode Generator through our online demo available at [https://www.stephane-hirt.fr/en/stuqr/](https://www.stephane-hirt.fr/en/stuqr/). Test and experience the functionality of the QR code generator before integrating it into your projects.
