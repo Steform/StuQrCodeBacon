@@ -1,1 +1,3 @@
 /qrgen/*
+/vendor
+/node_modules

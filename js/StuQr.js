@@ -37,7 +37,7 @@ async function fetchLanguageData() {
     // for history, check if old qr code exist on server (30 days history max)
     function checkQRCodeExists(qrCodeName) {
         
-        const url = `http://qrb.loc:90/qrgen/${qrCodeName}.png`;
+        const url = `/qrgen/${qrCodeName}.png`;
         return fetch(url)
             .then(response => response.ok)
             .catch(error => {
