@@ -30,8 +30,8 @@
                                 ?>
 
 
-                                <div class="col-6 mt-3"><a href="<?php echo($fullUrl."?lang=".$lang_data['lng1']);?>"><img src="<?php echo("/img/lang/".$lang_data['lng1'].".svg"); ?>" alt="<?php echo($lang_data['altLng1']);?>"></a></div>
-                                <div class="col-6 mt-3"><a href="<?php echo($fullUrl."?lang=".$lang_data['lng2']);?>"><img src="<?php echo("/img/lang/".$lang_data['lng2'].".svg"); ?>" alt="<?php echo($lang_data['altLng2']);?>"></a></div>
+                                <div class="col-6 mt-3 navflag mb-3"><a href="<?php echo($fullUrl."?lang=".$lang_data['lng1']);?>"><img class="flag" src="<?php echo("/img/lang/".$lang_data['lng1'].".svg"); ?>" alt="<?php echo($lang_data['altLng1']);?>"></a></div>
+                                <div class="col-6 mt-3 navflag mb-3"><a href="<?php echo($fullUrl."?lang=".$lang_data['lng2']);?>"><img class="flag" src="<?php echo("/img/lang/".$lang_data['lng2'].".svg"); ?>" alt="<?php echo($lang_data['altLng2']);?>"></a></div>
                             </div>
                         </div>
                     </div>

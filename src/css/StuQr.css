@@ -18,6 +18,21 @@
     width: 60%;
     text-align: center;
 }
+
+.navflag{
+
+    padding-left: 2% !important;
+    padding-right: 2% !important;
+
+}
+.flag{
+    width:100%;
+}
+
+.flag50{
+    width:60%;
+}
+
 .consent-link{
     text-decoration: none;
 }
