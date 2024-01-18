@@ -71,7 +71,7 @@
     "contactUsecase":                  "Verwenden Sie StuQrGenerator, um Kontakte über QR-Codes zu teilen",
     "menuUsecase":                     "Verwenden Sie StuQrGenerator, um einen Link zum Menü Ihres Restaurants zu teilen",
     "locationUsecase":                 "Verwenden Sie StuQrGenerator, um einen Standort, Koordinaten oder Kartenlinks zu teilen",
-    "ticketUsecase":                   "Verwenden Sie StuQrGenerator, um einen Link zu Ihrem Ticketverkauf zu teilen",
+    "ticketsUsecase":                   "Verwenden Sie StuQrGenerator, um einen Link zu Ihrem Ticketverkauf zu teilen",
     "wifiUsecase":                     "Verwenden Sie StuQrGenerator, um Ihr WLAN zu teilen",
     "socialUsecase":                   "Verwenden Sie StuQrGenerator, um Ihre sozialen Netzwerke zu teilen"
 
