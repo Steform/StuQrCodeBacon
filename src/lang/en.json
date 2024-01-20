@@ -65,6 +65,14 @@
     
     "altLng1":                         "Use the generator in French",
     "altLng2":                         "Use the generator in German",
-    "altStuQrLogo":                    "StuQrGenerator logo"
+    "altStuQrLogo":                    "StuQrGenerator logo",
+    "linkUsecase": "Use StuQrGenerator to generate QR codes pointing to links",
+    "infosUsecase": "Use StuQrGenerator to generate QR codes for information or informational link",
+    "contactUsecase": "Use StuQrGenerator to share contacts via QR Code format",
+    "menuUsecase": "Use StuQrGenerator to share a link to your restaurant's menu",
+    "locationUsecase": "Use StuQrGenerator to share a location, coordinates, or maps link",
+    "ticketsUsecase": "Use StuQrGenerator to share a link to your ticketing",
+    "wifiUsecase": "Use StuQrGenerator to share your wifi",
+    "socialUsecase": "Use StuQrGenerator to share your social networks"
 
 }
