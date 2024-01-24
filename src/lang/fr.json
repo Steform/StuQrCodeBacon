@@ -9,6 +9,8 @@
     "err5":                            "Erreur : La marge est trop grande.",
     "err6":                            "Erreur : Pour utiliser un logo vous devez utiliser un niveau de correction haut.",
     "err7":                            "Erreur : Le logo que vous voulez ajouté doit être parfaitement carré.",
+    "err8":                            "Erreur : Votre serveur ne dispose pas de la librairie Imagick qui est nécessaire.",
+    "err9":                            "Erreur : ",
     "qrgenok":                         "QR code généré avec succès.",
     "fillall":                         "Tous les champs du formulaire doivent être remplis.",
     "badcaptcha":                      "Captcha invalide.",

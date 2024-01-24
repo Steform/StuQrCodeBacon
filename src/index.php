@@ -8,6 +8,17 @@
     }
     require_once(__DIR__ . '/Utils/lang.php');
 
+    // if no csrf_token
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32)); //generate a 32-byte CSRF token
+    }    
+    
+    // require captcha and qr
+    require_once 'utils/CaptchaGenerator.php';
+
+    // composer autoload
+    require_once './vendor/autoload.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -139,7 +150,7 @@
                                 <input type="text" id="captcha" name="captcha"> <img src="/Utils/CaptchaImg.php" alt="captcha code">
                             </div>
                             <div class="col-12 mt-2 mb-5">
-                                <input type="hidden" name="csrf_token" value="<?php echo ($_SESSION['csrf_token']); ?>">
+                            <input type="hidden" name="csrf_token" value="<?php echo (isset($_SESSION['csrf_token']) ? $_SESSION['csrf_token'] : ''); ?>">
                                 <input type="submit" value="<?php echo($lang_data['generatetext']); ?>">
                             </div>
                         </div>
@@ -151,6 +162,171 @@
                 <div class="container-fluid">
                     <div class="row">
                         <?php
+                            $error = "";
+                            $file = "";
+                            $line = "";
+
+
+                            $captchaGenerator = new \src\Utils\CaptchaGenerator();
+
+
+                            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+                                // needed data to generate qr
+                                $urltext = $_POST['url'] ?? '';
+
+                                // name with date hour second and 5 random chars
+                                $name = $timestamp = date('Y-m-d-H-i-s'). '-' . substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 0, 5);;
+                                $correction = htmlspecialchars($_POST['correction']) ?? '';
+                                $size = htmlspecialchars($_POST['size']) ?? '';
+                                $margin = htmlspecialchars($_POST['margin']) ?? '';
+                                $logoPath = "";
+                                if (isset($_FILES['file'])) {
+                                    $fichier = $_FILES['file'];
+                                
+                                    // check if file waz downloaded and exist on server as tmp file
+                                    if ($fichier['size'] > 0 && file_exists($fichier['tmp_name'])) {
+                                
+                                        // get extension
+                                        $extension = pathinfo($fichier['name'], PATHINFO_EXTENSION);
+                                
+                                        // get type of file
+                                        $mime = exif_imagetype($fichier['tmp_name']);
+                                
+                                        // Vérifie le type de fichier : PNG ou JPG et vérifie le MIME
+                                        if (($extension === 'png' || $extension === 'jpg' || $extension === 'jpeg') && ($mime === IMAGETYPE_PNG || $mime === IMAGETYPE_JPEG)) {
+                                
+                                            // Vérifie la taille du fichier (limite à 2 Mo)
+                                            if ($fichier['size'] <= 2 * 1024 * 1024) {
+                                
+                                                // store tmp logo in logoPath
+                                                $logoPath = $fichier['tmp_name']; 
+                                
+                                            } else {
+
+                                                // Logo to big;
+                                                $message = $lang_data['oversizelogo'];
+                                                $logoPath = "";
+                                            }
+                                
+                                        } else {
+
+                                            // not a jpg png
+                                            $message = $lang_data['onlyjpgpng'];
+
+                                        }
+                                    }
+                                }
+                                
+                                
+
+                                // get captcha from user
+                                $userProvidedCode = htmlspecialchars($_POST['captcha']) ?? '';
+
+                                // if csrf not empty and hash is ok
+                                if (!empty($_POST['csrf_token']) && hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+                                    // if captcha ok
+                                    if ($captchaGenerator->verifyCaptcha($userProvidedCode)) {
+
+                                        // if url, name, correction and size not empty
+                                        if (!empty($urltext) && !empty($name) && !empty($correction) && !empty($size)&& !empty($margin)) {
+
+                                            try {
+
+                                                // Generate qr
+                                                $qrCodeGenerator = QRCodeGenerator::getInstance($lang_data, $_SERVER['DOCUMENT_ROOT'].'/qrgen/');
+
+                                                // try to generated qr
+                                                $generated = $qrCodeGenerator->generateQRCode($urltext, $name, $correction, $size, $margin, $logoPath);
+                                            
+                                                // clean qr
+                                                QRCodeGenerator::cleanInstance();
+                                            } catch (BaconQrCode\Exception\RuntimeException $e) {
+
+                                                // Gérer l'exception ici
+                                                $generated = -7;
+                                                
+                                            } catch(Exception $e) {
+
+                                                $generated = -8;
+                                                $error = $e->getMessage();
+                                                $file = $e->getFile();
+                                                $line = $e->getLine();
+
+                                            }
+                                            // by baconQrCode and Imagick, generate qr code in png format
+                                            
+                                            if ($generated === 0) {
+
+                                                // for history it's a target for localStorage Addition
+                                                echo '<div id="qrCodeData" style="display: none;" qrcode-name="' . htmlentities(json_encode(['qrCodeName' => $name])) . '"></div>';
+                                                
+                                                
+                                                $message = $lang_data['qrgenok'];
+
+                                            } else {
+                                                // error message
+                                                switch($generated){
+                                                    case -1:
+                                                        // bad correction level
+                                                        $message = $lang_data['err2'];
+                                                        break;
+                                                    case -2:
+                                                        // bad qr size
+                                                        $message = $lang_data['err3'];
+                                                        break;
+                                                    case -3:
+                                                        // bad qr margin
+                                                        $message = $lang_data['err4'];
+                                                        break;
+                                                    case -4:
+                                                        // margin to big
+                                                        $message = $lang_data['err5'];
+                                                        break;
+                                                    case -5:
+                                                        // correction level must be high if you want logo
+                                                        $message = $lang_data['err6'];
+                                                        break;
+                                                    case -6:
+                                                        // logo not sqare
+                                                        $message = $lang_data['err7'];
+                                                        break;
+                                                    case -7:
+                                                        // you don't have imagick
+                                                        $message = $lang_data['err8'];
+                                                        break;
+                                                    case -8:
+                                                        $message = $lang_data['err9'].$error. ', file : '. $file. ', line :'. $line;
+                                                }
+
+                                            }
+                                        } else {
+                                            // you must fill all needed field
+                                            $message = $lang_data['fillall'];
+                                        }
+                                    // if not good captcha
+                                    } else {
+                                        
+                                        // new captcha generated
+                                        $captchaCode = $captchaGenerator->getSessionCaptchaCode();
+
+                                        // message for user about bad captcha
+                                        $message=$lang_data['badcaptcha'];
+                                    }
+                                // if not good CSRF
+                                } else {
+
+                                    // message about CSRF 
+                                    $message = $lang_data['badcsrf'];
+                                }
+                            // if not form post    
+                            } else {
+
+                                // generate new captcha
+                                $captchaCode = $captchaGenerator->getSessionCaptchaCode();
+                            }
+
+
 
                             // if qr generated
                             if (isset($generated)){
@@ -220,9 +396,8 @@
                 if (qrCodeName) {
                     // add the new qr to history
                     addToQRCodeHistory(qrCodeName);
-                    }
                 }
-
+            }
         }
     }
     </script>

@@ -9,27 +9,42 @@ class CaptchaGenerator
     // session object
     private $session;
 
-    // constructor with no parameters
+    /**
+     * Constructor for the CaptchaGenerator class.
+     *
+     * This constructor initializes the CaptchaGenerator instance and provides access to the session
+     * for storing and retrieving captcha-related data.
+     */
     public function __construct() 
     {
         // access to session
         $this->session = &$_SESSION; 
     }
 
-    // function that generate random value between 1000 and 9999
+    /**
+     * Generate a random value between 1000 and 9999 as code for the captcha.
+     *
+     * @return string
+     */
     public function generateRandomCode(): string
     {
         //return the random int needed
         return strval(rand(1000, 9999));
     }
 
-    // function that return the captcha code
+    /**
+     * Retrieve the current captcha code stored in the session.
+     *
+     * @return string|null The captcha code if set, or null if not available in the session.
+     */
     public function getSessionCaptchaCode(): ?string
     {
         return $this->session['captcha_code'] ?? null;
     }
 
-    // function that generate the image you need for captcha
+    /**
+     * Generate a new captcha code, store it in the session, and generate the corresponding captcha image.
+     */
     public function getCaptcha()
     {
         $code = $this->generateRandomCode();
@@ -39,7 +54,13 @@ class CaptchaGenerator
 
     }
 
-    // function that check the captcha
+    /**
+     * Verify if the provided user-entered captcha code matches the stored captcha code in the session.
+     *
+     * @param string $userCode The captcha code entered by the user.
+     *
+     * @return bool True if the user-entered captcha code is correct, false otherwise.
+     */
     public function verifyCaptcha($userCode): bool
     {
         $captchaCode = $this->getSessionCaptchaCode();
@@ -49,8 +70,12 @@ class CaptchaGenerator
     }
 
 
-    // generate img of captcha
-    private function generateCaptchaImage($code):void
+    /**
+     * Generate a captcha image based on the provided code and output it to the browser.
+     *
+     * @param string $code The captcha code to be displayed in the image.
+     */
+    private function generateCaptchaImage($code)
     {
         // creating empty image of 24 by 50 pixels
         $image = imagecreatetruecolor(50, 24);

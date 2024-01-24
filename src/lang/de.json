@@ -9,6 +9,8 @@
     "err5":                            "Fehler: Der Rand ist zu groß.",
     "err6":                            "Fehler: Um ein Logo zu verwenden, muss eine hohe Fehlerkorrektur verwendet werden.",
     "err7":                            "Fehler: Das hinzuzufügende Logo muss perfekt quadratisch sein.",
+    "err8":                            "Fehler: Ihr Server verfügt nicht über die erforderliche Imagick-Bibliothek.",
+    "err9":                            "Fehler: ",
     "qrgenok":                         "QR-Code erfolgreich generiert.",
     "fillall":                         "Alle Formularfelder müssen ausgefüllt sein.",
     "badcaptcha":                      "Ungültiges Captcha.",

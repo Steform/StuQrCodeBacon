@@ -9,6 +9,8 @@
     "err5":                            "Error: Margin is too large.",
     "err6":                            "Error: To use a logo, you must use a high correction level.",
     "err7":                            "Error: The logo you want to add must be perfectly square.",
+    "err8":                            "Error: Your server does not have the Imagick library, which is required.",
+    "err9":                            "Error: ",
     "qrgenok":                         "QR code generated successfully.",
     "fillall":                         "All form fields must be filled.",
     "badcaptcha":                      "Invalid CAPTCHA.",
