@@ -1,16 +1,20 @@
 <?php
 
+    namespace App\Utils;
+
     // load bacon lib
+    use BaconQrCode\Common\ErrorCorrectionLevel;
+    use BaconQrCode\Encoder\Encoder;
     use BaconQrCode\Renderer\ImageRenderer;
     use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
     use BaconQrCode\Renderer\RendererStyle\RendererStyle;
     use BaconQrCode\Writer;
-    use BaconQrCode\Common\ErrorCorrectionLevel;
-    use BaconQrCode\Encoder\Encoder;
+    // use Imagick;
+    // use ImagickPixel;
 
-    class QRCodeGenerator
+
+    class QrCodeGenerator
     {
-        private $lang_data;
         private $outputPath;
         private static $instance;
         
@@ -21,10 +25,9 @@
          * @param string $outputPath  The path where the generated QR code images will be saved.
          */
 
-        private function __construct($lang_data, $outputPath)
+        private function __construct($outputPath)
         {
-            $this->lang_data = $lang_data;
-            $this->outputPath = $this->outputPath;
+            $this->outputPath = $outputPath;
             $this->clean();
         }
 
@@ -36,10 +39,10 @@
          *
          * @return QRCodeGenerator  The instance of the QRCodeGenerator class.
          */
-        public static function getInstance($lang_data, $outputPath)
+        public static function getInstance($outputPath)
         {
             if (!isset(self::$instance)) {
-                self::$instance = new self($lang_data, $outputPath);
+                self::$instance = new self($outputPath);
             }
 
             return self::$instance;
@@ -66,10 +69,15 @@
          * @param int    $margin     The margin size (0 to 128 pixels).
          * @param string $logoPath   The path to the logo image file (optional).
          *
-         * @return int Returns 0 on success. Returns -1 if the correction level is invalid.
-         *             Returns -2 if the size is invalid. Returns -3 if the margin is invalid.
-         *             Returns -4 if the margin is too large. Returns -5 if the correction level is 'H' and a logo is provided.
+         * @return int Returns 0 on success. 
+         *             Returns -1 if the correction level is invalid.
+         *             Returns -2 if the size is invalid. 
+         *             Returns -3 if the margin is invalid.
+         *             Returns -4 if the margin is too large. 
+         *             Returns -5 if the correction level is 'H' and a logo is provided.
          *             Returns -6 if the logo is not square.
+         *             Returns -7 if server don't have permissions to create outputfolder
+         *             Returns -8 if the outputfolder newly created don't have permission to write qr inside
          */
         function generateQRCode($url, $name, $correction, $size, $margin, $logoPath = "")
         {
@@ -92,36 +100,34 @@
                         // writer object able to write the wr code
                         $writer = new Writer($renderer);
 
+                        // if win
                         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                            $qrImagePath = $_SERVER['DOCUMENT_ROOT'] .'\qrgen\\' . $name . '.png';
+                            $qrImagePath = $this->outputPath . $name . '.png';
                         } else {
-                            $qrImagePath = $_SERVER['DOCUMENT_ROOT'] .'/qrgen/' . $name . '.png';
+                            $qrImagePath = $this->outputPath . $name . '.png';
                         }
-                        // path of generated qr
-                        
 
-                        // if not folder
-                        if ($this->outputPath !== null && is_dir($this->outputPath)) {
-                            // www-data
-                            
-                            // try to create the folder
+                        // If the directory is not null and does not exist
+                        if ($this->outputPath && !is_dir($this->outputPath)) {
+                            // Attempt to create the directory
                             if (!mkdir($this->outputPath, 0777, true)) {
-                                // if unable to create folder
-                                $message = $lang_data['err1'];
-                            } else {
-                                // check if the folder has the correct permissions
-                                if (!is_writable($this->outputPath) || !is_readable($this->outputPath)) {
-                                    // change folder permissions to 777
-                                    chmod($this->outputPath, 0777);
-                                    
-                                    // check again if the folder has the correct permissions
-                                    if (!is_writable($this->outputPath) || !is_readable($this->outputPath)) {
-                                        $message = $lang_data['err2']; // Adjust this message according to your needs
-                                    }
-                                }
+                                // If directory creation fails, return an error code
+                                return -7;
                             }
                         }
-                        
+
+                        // Check if the directory has write and read permissions
+                        if (!is_writable($this->outputPath) || !is_readable($this->outputPath)) {
+                            // Change the directory permissions to 0777
+                            chmod($this->outputPath, 0777);
+
+                            // Check again if the directory has the correct permissions
+                            if (!is_writable($this->outputPath) || !is_readable($this->outputPath)) {
+                                // If permissions are still incorrect, return an error code
+                                return -8;
+                            }
+                        }
+
                         // writing qr code with parameters without logo
                         $writer->writeFile(
                             $url,
@@ -161,6 +167,7 @@
                                     // Positionning using margin the logo over the qr
                                     $qrCode->compositeImage($logo, Imagick::COMPOSITE_OVER, $logoMargin, $logoMargin);
                                     
+                                    // Save new qr code
                                     $qrCode->writeImage($qrImagePath);
 
                                 } else {
@@ -225,7 +232,7 @@
          */
         public function clean():void {
 
-            // check if qrgen folder exist
+            // check if outputPath folder exist
             if ($this->outputPath !== null && is_dir($this->outputPath)) {
                 // Open folder
                 $files = scandir($this->outputPath);
