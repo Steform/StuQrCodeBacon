@@ -7,6 +7,8 @@ RUN apt-get update && \
     pecl install imagick && \
     docker-php-ext-enable imagick && \
     docker-php-ext-install gd
+    
+RUN docker-php-ext-install exif
 
 # Define the working directory
 WORKDIR /var/www/html
@@ -22,6 +24,3 @@ EXPOSE 80
 
 # Starting apache
 CMD ["apache2-foreground"]
-
-# Set permissions for the /var/www/html directory
-RUN chown -R www-data:www-data /var/www/html && chmod -R 777 /var/www/html
