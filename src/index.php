@@ -38,7 +38,7 @@
 
 
 <?php
-    require_once(__DIR__ . '/Utils/qrGen.php');
+    require_once(__DIR__ . '/Utils/QrCodeGenerator.php');
 ?>
 
 
@@ -234,7 +234,7 @@
                                             try {
 
                                                 // Generate qr
-                                                $qrCodeGenerator = QRCodeGenerator::getInstance($lang_data, $_SERVER['DOCUMENT_ROOT'].'/qrgen/');
+                                                $qrCodeGenerator = QRCodeGenerator::getInstance($_SERVER['DOCUMENT_ROOT'].'qrgen/');
 
                                                 // try to generated qr
                                                 $generated = $qrCodeGenerator->generateQRCode($urltext, $name, $correction, $size, $margin, $logoPath);
@@ -244,11 +244,11 @@
                                             } catch (BaconQrCode\Exception\RuntimeException $e) {
 
                                                 // Gérer l'exception ici
-                                                $generated = -7;
+                                                $generated = -9;
                                                 
                                             } catch(Exception $e) {
 
-                                                $generated = -8;
+                                                $generated = -10;
                                                 $error = $e->getMessage();
                                                 $file = $e->getFile();
                                                 $line = $e->getLine();
@@ -292,12 +292,21 @@
                                                         $message = $lang_data['err7'];
                                                         break;
                                                     case -7:
+                                                        // unable to create outputpath
+                                                        $message = $lang_data['err1'];
+                                                        break;
+                                                    case -8:
+                                                        // unable to create outputpath
+                                                        $message = $lang_data['err2'];
+                                                        break;                                                    
+                                                    case -9:
                                                         // you don't have imagick
                                                         $message = $lang_data['err8'];
                                                         break;
-                                                    case -8:
+                                                    case -10:
                                                         $message = $lang_data['err9'].$error. ', file : '. $file. ', line :'. $line;
-                                                }
+                                                        break;
+                                                    }
 
                                             }
                                         } else {
