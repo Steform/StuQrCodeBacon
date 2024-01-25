@@ -6,9 +6,8 @@ RUN apt-get update && \
     apt-get install -y libmagickwand-dev && \
     pecl install imagick && \
     docker-php-ext-enable imagick && \
-    docker-php-ext-install gd
-    
-RUN docker-php-ext-install exif
+    docker-php-ext-install gd && \
+    docker-php-ext-install exif
 
 # Define the working directory
 WORKDIR /var/www/html
@@ -21,6 +20,3 @@ RUN service apache2 restart
 
 # Expose the 80 port of container
 EXPOSE 80
-
-# Starting apache
-CMD ["apache2-foreground"]

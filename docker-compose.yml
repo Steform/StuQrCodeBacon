@@ -11,4 +11,4 @@ services:
       - "8090:80"
     volumes:
       - ./src:/var/www/html
-    command: /bin/sh -c "chown -R www-data:www-data /var/www/html/qrgen/ && apache2-foreground"
+    command: /bin/sh -c "chown -R www-data:www-data /var/www/html/qrgen/ && chmod -R 777 /var/www/html/qrgen/ && apache2-foreground"
