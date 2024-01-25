@@ -9,27 +9,15 @@
     use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
     use BaconQrCode\Renderer\RendererStyle\RendererStyle;
     use BaconQrCode\Writer;
-    // use Imagick;
-    // use ImagickPixel;
+    use Imagick;
+    use ImagickPixel;
 
 
     class QrCodeGenerator
     {
-        private $outputPath;
         private static $instance;
         
-        /**
-         * Constructor for the QRCodeGenerator class.
-         *
-         * @param array  $lang_data   Language-specific data for error messages and logging.
-         * @param string $outputPath  The path where the generated QR code images will be saved.
-         */
 
-        private function __construct($outputPath)
-        {
-            $this->outputPath = $outputPath;
-            $this->clean();
-        }
 
         /**
          * Get an instance of the QRCodeGenerator using the Singleton pattern.
@@ -39,25 +27,15 @@
          *
          * @return QRCodeGenerator  The instance of the QRCodeGenerator class.
          */
-        public static function getInstance($outputPath)
+        public static function getInstance()
         {
             if (!isset(self::$instance)) {
-                self::$instance = new self($outputPath);
+                self::$instance = new self();
             }
 
             return self::$instance;
         }
 
-        /**
-         * Clean the instance of QRCodeGenerator using the Singleton pattern.
-         * This method invokes the 'clean' method of the existing instance to perform cleanup operations.
-         */
-        public static function cleanInstance()
-        {
-            if (isset(self::$instance)) {
-                self::$instance->clean();
-            }
-        }
 
         /**
          * Generate a QR code using the Bacon library.
@@ -79,7 +57,7 @@
          *             Returns -7 if server don't have permissions to create outputfolder
          *             Returns -8 if the outputfolder newly created don't have permission to write qr inside
          */
-        function generateQRCode($url, $name, $correction, $size, $margin, $logoPath = "")
+        function generateQRCode($url, $name, $correction, $size, $margin, $outputPath, $logoPath = "")
         {
 
 
@@ -100,33 +78,32 @@
                         // writer object able to write the wr code
                         $writer = new Writer($renderer);
 
-                        // if win
-                        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                            $qrImagePath = $this->outputPath . $name . '.png';
-                        } else {
-                            $qrImagePath = $this->outputPath . $name . '.png';
-                        }
+                        //qr image path
+                        $qrImagePath = $outputPath . $name . '.png';
 
                         // If the directory is not null and does not exist
-                        if ($this->outputPath && !is_dir($this->outputPath)) {
+                        if ($outputPath && !is_dir($outputPath)) {
                             // Attempt to create the directory
-                            if (!mkdir($this->outputPath, 0777, true)) {
+                            if (!mkdir($outputPath, 0777, true)) {
                                 // If directory creation fails, return an error code
+
                                 return -7;
                             }
                         }
 
                         // Check if the directory has write and read permissions
-                        if (!is_writable($this->outputPath) || !is_readable($this->outputPath)) {
+                        if (!is_writable($outputPath) || !is_readable($outputPath)) {
                             // Change the directory permissions to 0777
-                            chmod($this->outputPath, 0777);
+                            chmod($outputPath, 0777);
 
                             // Check again if the directory has the correct permissions
-                            if (!is_writable($this->outputPath) || !is_readable($this->outputPath)) {
+                            if (!is_writable($outputPath) || !is_readable($outputPath)) {
                                 // If permissions are still incorrect, return an error code
+
                                 return -8;
                             }
                         }
+                        
 
                         // writing qr code with parameters without logo
                         $writer->writeFile(
@@ -230,17 +207,17 @@
          *
          * @return void
          */
-        public function clean():void {
+        public function clean($outputPath):void {
 
             // check if outputPath folder exist
-            if ($this->outputPath !== null && is_dir($this->outputPath)) {
+            if ($outputPath !== null && is_dir($outputPath)) {
                 // Open folder
-                $files = scandir($this->outputPath);
+                $files = scandir($outputPath);
                 
                 // loop inside the folder
                 foreach ($files as $file) {
                     if ($file !== '.' && $file !== '..') {
-                        $filePath = $this->outputPath . $file;
+                        $filePath = $outputPath . $file;
                         
                         // if it's a file
                         if (is_file($filePath)) {

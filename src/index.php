@@ -14,7 +14,7 @@
     }    
     
     // require captcha and qr
-    require_once 'utils/CaptchaGenerator.php';
+    require_once 'Utils/CaptchaGenerator.php';
 
     // composer autoload
     require_once './vendor/autoload.php';
@@ -231,13 +231,12 @@
                                             try {
 
                                                 // Generate qr
-                                                $qrCodeGenerator = App\Utils\QrCodeGenerator::getInstance($_SERVER['DOCUMENT_ROOT'].'qrgen/');
+                                                $qrCodeGenerator = App\Utils\QrCodeGenerator::getInstance();
 
                                                 // try to generated qr
-                                                $generated = $qrCodeGenerator->generateQRCode($urltext, $name, $correction, $size, $margin, $logoPath);
+                                                $generated = $qrCodeGenerator->generateQRCode($urltext, $name, $correction, $size, $margin, $_SERVER['DOCUMENT_ROOT'].'//qrgen/', $logoPath);
                                             
-                                                // clean qr
-                                                QRCodeGenerator::cleanInstance();
+
                                             } catch (BaconQrCode\Exception\RuntimeException $e) {
 
                                                 // Gérer l'exception ici
@@ -301,6 +300,7 @@
                                                         $message = $lang_data['err8'];
                                                         break;
                                                     case -10:
+                                                        // Random error
                                                         $message = $lang_data['err9'].$error. ', file : '. $file. ', line :'. $line;
                                                         break;
                                                     }
