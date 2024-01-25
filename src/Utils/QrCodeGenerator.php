@@ -1,5 +1,7 @@
 <?php
 
+    namespace App\Utils;
+
     // load bacon lib
     use BaconQrCode\Common\ErrorCorrectionLevel;
     use BaconQrCode\Encoder\Encoder;

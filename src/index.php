@@ -19,6 +19,8 @@
     // composer autoload
     require_once './vendor/autoload.php';
 
+    // QrCodeGenerator Class
+    require_once(__DIR__ . '/Utils/QrCodeGenerator.php');
 ?>
 
 <!DOCTYPE html>
@@ -35,11 +37,6 @@
     <link rel="icon" href="/img/fav.webp" type="image/x-icon">
 
 </head>
-
-
-<?php
-    require_once(__DIR__ . '/Utils/QrCodeGenerator.php');
-?>
 
 
 <body>
@@ -234,7 +231,7 @@
                                             try {
 
                                                 // Generate qr
-                                                $qrCodeGenerator = QRCodeGenerator::getInstance($_SERVER['DOCUMENT_ROOT'].'qrgen/');
+                                                $qrCodeGenerator = App\Utils\QrCodeGenerator::getInstance($_SERVER['DOCUMENT_ROOT'].'qrgen/');
 
                                                 // try to generated qr
                                                 $generated = $qrCodeGenerator->generateQRCode($urltext, $name, $correction, $size, $margin, $logoPath);
