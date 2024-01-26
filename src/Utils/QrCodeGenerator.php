@@ -15,15 +15,12 @@
 
     class QrCodeGenerator
     {
+
         private static $instance;
         
 
-
         /**
          * Get an instance of the QRCodeGenerator using the Singleton pattern.
-         *
-         * @param array  $lang_data   Language-specific data for error messages and logging.
-         * @param string $outputPath  The path where the generated QR code images will be saved.
          *
          * @return QRCodeGenerator  The instance of the QRCodeGenerator class.
          */
@@ -45,6 +42,7 @@
          * @param string $correction The error correction level ('L', 'M', 'Q', 'H').
          * @param int    $size       The size of the QR code (128 to 2048 pixels).
          * @param int    $margin     The margin size (0 to 128 pixels).
+         * @param string $outputPath     The outputPath of Generated Qr Codes
          * @param string $logoPath   The path to the logo image file (optional).
          *
          * @return int Returns 0 on success. 
@@ -205,9 +203,11 @@
          * This method scans the output directory for files and removes those that are older than 30 days.
          * It helps maintain the cleanliness of the output directory, especially when generating QR codes over time.
          *
+         * @param String $outputPath     The outputPath of Generated Qr Codes
+         * 
          * @return void
          */
-        public function clean($outputPath):void {
+        function clean($outputPath):void {
 
             // check if outputPath folder exist
             if ($outputPath !== null && is_dir($outputPath)) {
@@ -242,4 +242,3 @@
             }
         }
     }
-?>
